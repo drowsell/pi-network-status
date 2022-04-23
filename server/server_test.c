@@ -3,14 +3,15 @@
 #include <unistd.h>
 
 #include "Server.h"
+#include "server_config.h"
 
 void launch(struct Server *server)
 {
     // File with html page
-    char buffer[30000];
+    char buffer[5000];
 
     char http_header[30000] = "HTTP/1.1 200 OK\r\n\n";
-    char response_data[1024];
+    char response_data[30000];
 
     // Grab HTML data
     FILE *html_data;
@@ -47,6 +48,6 @@ void launch(struct Server *server)
 
 int main()
 {
-    struct Server server = server_constructor(AF_INET, SOCK_STREAM, 0, INADDR_ANY, 8002, 10, launch);
+    struct Server server = server_constructor(DOMAIN, SERVICE, PROTOCOL, INTERFACE, PORT, BACKLOG, launch);
     server.launch(&server);
 }
