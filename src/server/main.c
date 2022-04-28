@@ -21,7 +21,7 @@ void launch(struct Server *server)
 	int http_buffer_size = 30000;
 	char http_buffer[http_buffer_size];
 
-	//update_webpage("index.html");
+	update_webpage("index.html");
 
 	retrieve_webpage("index.html", http_buffer, http_buffer_size);
 
