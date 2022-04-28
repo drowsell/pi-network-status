@@ -2,9 +2,9 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "Server.h"
-#include "server_config.h"
-#include "webpage.h"
+#include "server/Server.h"
+#include "server/server_config.h"
+#include "server/webpage.h"
 
 // Launches the http server
 // Server will listen for a client
@@ -21,9 +21,9 @@ void launch(struct Server *server)
 	int http_buffer_size = 30000;
 	char http_buffer[http_buffer_size];
 
-	update_webpage("index.html");
+	update_webpage("server/template.html", "server/index.html");
 
-	retrieve_webpage("index.html", http_buffer, http_buffer_size);
+	retrieve_webpage("server/index.html", http_buffer, http_buffer_size);
 
         printf("Waiting for client...\n");
 
