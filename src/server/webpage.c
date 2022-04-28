@@ -107,15 +107,26 @@ int update_webpage(const char* file_path)
         	strcat(response_data, line);
     	}
 
-	FILE* f = fopen("test.html", "w");
+	FILE* index = fopen("index.html", "w");
 
-	if(f == NULL) {
+	if(index == NULL) {
 		printf("Error: Could not create file.");
 		exit(-1);
 	}
 
-	fprintf(f, "%s", response_data);
-	fclose(f);
+	fprintf(index, "%s", response_data);
+	fclose(index);
+
+
+	FILE* connection_file = fopen("connection.dat", "w");
+
+	if(connection_file == NULL) {
+		printf("Error: Could not create file.");
+		exit(-1);
+	}
+
+	fprintf(connection_file, "");
+	fclose(connection_file);
 
 	return 0;
 }
