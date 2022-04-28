@@ -4,7 +4,7 @@ all: main
 
 main: main.c
 	@echo "Compliling HTTP server."
-	${CC} Server.c main.c -o main
+	${CC} webpage.c Server.c main.c -o main
 
 clean:
 	@echo "Cleaning up..."

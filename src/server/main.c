@@ -4,32 +4,7 @@
 
 #include "Server.h"
 #include "server_config.h"
-
-// Retrieves the host up to date HTML page from the file path
-void retrieve_webpage(const char* file_path, char* buffer, int buffer_size) 
-{
-    	char http_header[30000] = "HTTP/1.1 200 OK\r\n\n";
-    	char response_data[30000] = {'\0'};
-
-	printf("%s\n", response_data);
-
-    	// Grab HTML data
-    	FILE *html_data;
-
-	// Open file with HTML data
-    	html_data = fopen(file_path, "r");
-    	char line[1024];
-    	while (fgets(line, sizeof(line), html_data))
-    	{
-        	strcat(response_data, line);
-    	}
-
-	// Insert HTTP header infront of data
-	strcat(http_header, response_data);
-
-	// Copy data to buffer
-	strncpy(buffer, http_header, buffer_size);
-}
+#include "webpage.h"
 
 // Launches the http server
 // Server will listen for a client
@@ -46,6 +21,8 @@ void launch(struct Server *server)
 	int http_buffer_size = 30000;
 	char http_buffer[http_buffer_size];
 
+	//update_webpage("index.html");
+
 	retrieve_webpage("index.html", http_buffer, http_buffer_size);
 
         printf("Waiting for client...\n");
@@ -58,7 +35,6 @@ void launch(struct Server *server)
 
         read(client_socket, buffer_client, http_buffer_size);
         printf("%s\n", buffer_client);
-	//printf("%s\n", http_buffer);
         write(client_socket, http_buffer, sizeof(http_buffer));
         close(client_socket);
         printf("Complete...\n");
