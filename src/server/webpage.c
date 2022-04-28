@@ -1,16 +1,23 @@
 #include "webpage.h"
 
-static int callback(void *data, int argc, char **argv, char **azColName){
-   int i;
- 
+static int callback(void *data, int argc, char **argv, char **azColName)
+{
+	char connection_data[1024] = {'\0'};
 
-   for(i = 0; i<argc; i++){
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-      
-   }
+	strcat(connection_data, "[");
+
+	for(int i = 0; i< argc; i++){
+		//printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+		char tmp[1024] = {'\0'};
+		sprintf(tmp, "\"%s\",", argv[i] ? argv[i] : "NULL");
+		strcat(connection_data, tmp);
+	}
    
-   printf("\n");
-   return 0;
+	strcat(connection_data, "\"#ab0000\", \"#009933\"],\n");
+	//printf("\"#ab0000\", \"#009933\"],\n");
+	printf("%s\n", connection_data);
+		
+	return 0;
 }
 
 int update_webpage(const char* file_path) 
@@ -34,9 +41,29 @@ int update_webpage(const char* file_path)
 		fprintf(stderr, "Opened database successfully\n");
 	}
 	
-	// Create SQL statement
-	sql = "SELECT * from Connection";
+	char response_data[30000] = {'\0'};
+	char line[1024] = {'\0'};
+    	
+	// Grab HTML data
+    	FILE *html_data;
+	
+	// Open file with HTML data
+    	html_data = fopen("template.html", "r");
+    	while (fgets(line, sizeof(line), html_data))
+    	{
+        	strcat(response_data, line);
 
+		char* check;
+		check = strstr(line, "//INSERT//");
+		if(check) 
+		{
+			printf("%s\n", line);
+			break;
+		}
+    	}
+
+	// Create SQL statement
+	sql = "SELECT date, SUM(CASE WHEN status='UP' THEN 1 ELSE 0 END) NumUps, SUM(CASE WHEN status='DOWN' THEN 1 ELSE 0 END) NumDowns FROM Connection GROUP BY date";
 	// Execute SQL statement
 	rc = sqlite3_exec(db, sql, callback, (void*)data, &zErrMsg);
    
