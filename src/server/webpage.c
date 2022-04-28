@@ -16,6 +16,16 @@ static int callback(void *data, int argc, char **argv, char **azColName)
 	strcat(connection_data, "\"#ab0000\", \"#009933\"],\n");
 	//printf("\"#ab0000\", \"#009933\"],\n");
 	printf("%s\n", connection_data);
+
+	FILE* f = fopen("connection.dat", "a");
+
+	if(f == NULL) {
+		printf("Error: Could not create file.");
+		exit(-1);
+	}
+
+	fprintf(f, "%s", connection_data);
+	fclose(f);
 		
 	return 0;
 }
@@ -78,7 +88,35 @@ int update_webpage(const char* file_path)
 	}
 
 	sqlite3_close(db);
+
+
+	char query_data[30000] = {'\0'};
+    	
+    	FILE *connection_data;
 	
+    	connection_data = fopen("connection.dat", "r");
+    	while (fgets(line, sizeof(line), connection_data))
+    	{
+        	strcat(query_data, line);
+    	}
+	
+	strcat(response_data, query_data);
+
+    	while (fgets(line, sizeof(line), html_data))
+    	{
+        	strcat(response_data, line);
+    	}
+
+	FILE* f = fopen("test.html", "w");
+
+	if(f == NULL) {
+		printf("Error: Could not create file.");
+		exit(-1);
+	}
+
+	fprintf(f, "%s", response_data);
+	fclose(f);
+
 	return 0;
 }
 
