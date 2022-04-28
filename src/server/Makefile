@@ -1,11 +1,11 @@
 CC = gcc
 
-all: server_test
+all: main
 
-server_test: server_test.c
-	@echo "Compliling test HTTP server."
-	${CC} Server.c server_test.c -o server_test
+main: main.c
+	@echo "Compliling HTTP server."
+	${CC} Server.c main.c -o main
 
 clean:
 	@echo "Cleaning up..."
-	rm -rvf server_test.o server_test
+	rm -rvf main.o main
