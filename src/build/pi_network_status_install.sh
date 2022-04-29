@@ -6,8 +6,11 @@ rm pi_network_status  2> /dev/null
 touch pi_network_status
 chmod +x pi_network_status
 echo "#!/bin/bash" >> pi_network_status
+echo "echo \"Starting Pi Network Status\"" >> pi_network_status
 echo "" >> pi_network_status
-echo "./bin/pi_network_status" >> pi_network_status
+echo "pwd" >> pi_network_status
+echo "cd $PWD" >> pi_network_status
+echo "$PWD/bin/./pi_network_status" >> pi_network_status
 
 # Startup Service
 rm pi-network-status.service 2> /dev/null
