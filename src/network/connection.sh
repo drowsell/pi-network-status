@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd database
+
 while true
 do
 	day=`date +"%Y-%m-%d"`
@@ -11,9 +13,9 @@ do
 
 	# Checks if the ping was successful
 	if [[ $rc -eq 0 ]] ; then
-		database/./insert ${day} ${time} UP
+		./insert ${day} ${time} UP
 	else
-		database/./insert ${day} ${time} DOWN
+		./insert ${day} ${time} DOWN
 	fi
 sleep 60
 done
