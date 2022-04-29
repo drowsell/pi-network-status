@@ -2,15 +2,19 @@ CC = gcc
 
 OBJDIR = obj
 BINDIR = bin
-MODULES := database network server
+MODULES := build database network server
 OBJDIRS := $(patsubst %, $(OBJDIR)/%, $(MODULES))
 BINDIRS := $(patsubst %, $(BINDIR)/%, $(MODULES))
 
 all: webserver database
 
+install: 
+	./src/build/pi_network_status_install.sh
+	sudo mv pi-network-status.service /etc/systemd/system/pi-network-status.service
+
 webserver: build obj/main.o obj/server/Server.o obj/server/webpage.o
 	@echo "Compliling HTTP server:"
-	${CC} obj/main.o obj/server/Server.o obj/server/webpage.o -pthread -l sqlite3 -o bin/pi_net_status 
+	${CC} obj/main.o obj/server/Server.o obj/server/webpage.o -pthread -l sqlite3 -o bin/pi_network_status 
 
 database: build obj/database/insert_connection_db.o
 	@echo "Compliling Connection Database functions:"
@@ -27,6 +31,7 @@ obj/database/%.o: src/database/%.c
 
 build: $(OBJDIRS) $(BINDIRS) ping
 	@echo $^
+	cp src/build/pi_network_status pi_network_status
 
 $(OBJDIRS):
 	mkdir -p $@ 
