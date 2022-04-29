@@ -43,7 +43,7 @@ void launch(struct Server *server)
 }
 
 void* monitor_network() {
-	system("network/./connection.sh");
+	system("bin/network/./ping.sh");
 }
 
 int main() 

@@ -14,7 +14,7 @@ webserver: build obj/main.o obj/server/Server.o obj/server/webpage.o
 
 database: build obj/database/insert_connection_db.o
 	@echo "Compliling Connection Database functions:"
-	${CC} obj/database/insert_connection_db.o -l sqlite3 -o bin/insert
+	${CC} obj/database/insert_connection_db.o -l sqlite3 -o bin/database/insert
 
 obj/%.o: src/%.c
 	${CC} -c $< -o $@

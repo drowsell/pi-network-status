@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd database
+cd bin/database
 
 while true
 do
