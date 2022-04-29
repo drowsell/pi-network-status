@@ -15,7 +15,7 @@ static int callback(void *data, int argc, char **argv, char **azColName)
 	strcat(connection_data, "\"#ab0000\", \"#009933\"],\n");
 	printf("%s", connection_data);
 
-	FILE* f = fopen("connection.dat", "a");
+	FILE* f = fopen("bin/network/connection.dat", "a");
 
 	if(f == NULL) {
 		printf("Error: Could not create file.");
@@ -37,7 +37,7 @@ int update_webpage(const char* file_source, const char* file_destination)
 	const char* data = "Callback function called";
 
 	/* Open database */
-	rc = sqlite3_open("database/connection.db", &db);
+	rc = sqlite3_open("bin/database/connection.db", &db);
    
 	if( rc ) 
 	{
@@ -92,7 +92,7 @@ int update_webpage(const char* file_source, const char* file_destination)
     	
     	FILE *connection_data;
 	
-    	connection_data = fopen("connection.dat", "r");
+    	connection_data = fopen("bin/network/connection.dat", "r");
     	while (fgets(line, sizeof(line), connection_data))
     	{
         	strcat(query_data, line);

@@ -22,9 +22,9 @@ void launch(struct Server *server)
 	int http_buffer_size = 30000;
 	char http_buffer[http_buffer_size];
 
-	update_webpage("server/template.html", "server/index.html");
+	update_webpage("src/server/template.html", "bin/server/index.html");
 
-	retrieve_webpage("server/index.html", http_buffer, http_buffer_size);
+	retrieve_webpage("bin/server/index.html", http_buffer, http_buffer_size);
 
         printf("Waiting for client...\n");
 
@@ -43,7 +43,10 @@ void launch(struct Server *server)
 }
 
 void* monitor_network() {
-	system("bin/network/./ping.sh");
+	while(1) {
+		system("bin/network/./ping.sh");
+		sleep(60);
+	}
 }
 
 int main() 
@@ -52,6 +55,8 @@ int main()
 	if(pthread_create(&t1, NULL, &monitor_network, NULL) != 0) {
 		return 1;
 	}
+
+	sleep(1);
 
 	struct Server server = server_constructor(DOMAIN, SERVICE, PROTOCOL, INTERFACE, PORT, BACKLOG, launch);
 	server.launch(&server);

@@ -39,4 +39,4 @@ ping:
 
 clean:
 	@echo "Cleaning up..."
-	rm -rvf *.o main database/insert
+	rm -rvf bin obj
