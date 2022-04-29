@@ -36,7 +36,7 @@ int update_webpage(const char* file_source, const char* file_destination)
 	char *sql;
 	const char* data = "Callback function called";
 
-	/* Open database */
+	// Open database
 	rc = sqlite3_open("bin/database/connection.db", &db);
    
 	if( rc ) 
@@ -56,11 +56,14 @@ int update_webpage(const char* file_source, const char* file_destination)
     	FILE *html_data;
 	
 	// Open file with HTML data
+	// We wish to copy this template.html
     	html_data = fopen(file_source, "r");
     	while (fgets(line, sizeof(line), html_data))
     	{
         	strcat(response_data, line);
-
+		
+		// Check for INSERT keyword
+		// We want to write after this line
 		char* check;
 		check = strstr(line, "//INSERT//");
 		if(check) 
@@ -70,9 +73,8 @@ int update_webpage(const char* file_source, const char* file_destination)
 		}
     	}
 
-	// Create SQL statement
-	sql = "SELECT date, SUM(CASE WHEN status='DOWN' THEN 1 ELSE 0 END) NumDowns, SUM(CASE WHEN status='UP' THEN 1 ELSE 0 END) NumUps  FROM Connection GROUP BY date";
 	// Execute SQL statement
+	sql = "SELECT date, SUM(CASE WHEN status='DOWN' THEN 1 ELSE 0 END) NumDowns, SUM(CASE WHEN status='UP' THEN 1 ELSE 0 END) NumUps  FROM Connection GROUP BY date";
 	rc = sqlite3_exec(db, sql, callback, (void*)data, &zErrMsg);
    
 	if( rc != SQLITE_OK ) 
@@ -87,9 +89,10 @@ int update_webpage(const char* file_source, const char* file_destination)
 
 	sqlite3_close(db);
 
-
+	// Open file which contains data from SQL query
+	// This will be formatted for our webpage 
+	// It contains information how many times the network was UP/DOWN
 	char query_data[30000] = {'\0'};
-    	
     	FILE *connection_data;
 	
     	connection_data = fopen("bin/network/connection.dat", "r");
@@ -100,11 +103,13 @@ int update_webpage(const char* file_source, const char* file_destination)
 	
 	strcat(response_data, query_data);
 
+	// Continue writing our webpage from template.html
     	while (fgets(line, sizeof(line), html_data))
     	{
         	strcat(response_data, line);
     	}
 
+	// Write the HTML page to a new index.html
 	FILE* index = fopen(file_destination, "w");
 
 	if(index == NULL) {
@@ -115,8 +120,8 @@ int update_webpage(const char* file_source, const char* file_destination)
 	fprintf(index, "%s", response_data);
 	fclose(index);
 
-
-	FILE* connection_file = fopen("connection.dat", "w");
+	// Erase connection.dat
+	FILE* connection_file = fopen("bin/network/connection.dat", "w");
 
 	if(connection_file == NULL) {
 		printf("Error: Could not create file.");
