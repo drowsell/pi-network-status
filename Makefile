@@ -11,6 +11,12 @@ all: webserver database
 install: 
 	./src/build/pi_network_status_install.sh
 	sudo mv pi-network-status.service /etc/systemd/system/pi-network-status.service
+	sudo systemctl enable pi-network-status
+
+
+uninstall: 
+	sudo systemctl disable pi-network-status
+	sudo rm /etc/systemd/system/pi-network-status.service
 
 webserver: build obj/main.o obj/server/Server.o obj/server/webpage.o
 	@echo "Compliling HTTP server:"
@@ -31,7 +37,6 @@ obj/database/%.o: src/database/%.c
 
 build: $(OBJDIRS) $(BINDIRS) ping
 	@echo $^
-	cp src/build/pi_network_status pi_network_status
 
 $(OBJDIRS):
 	mkdir -p $@ 
@@ -44,4 +49,4 @@ ping:
 
 clean:
 	@echo "Cleaning up..."
-	rm -rvf bin obj
+	rm -rvf bin obj pi_network_status
