@@ -5,11 +5,6 @@
 
 struct Server server_constructor(int domain, int service, int protocol, unsigned long interface, int port, int backlog, void (*launch)(struct Server * server))
 {
-    struct Server server;
-    {
-        /* data */
-    };
-
     server.domain = domain;
     server.service = service;
     server.protocol = protocol;

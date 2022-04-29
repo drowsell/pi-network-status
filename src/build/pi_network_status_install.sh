@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Easy Run
-
+# Script to run main program
 rm pi_network_status  2> /dev/null
 touch pi_network_status
 chmod +x pi_network_status

@@ -24,7 +24,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     
+    // Creates a table
     char *sql0 = "CREATE TABLE IF NOT EXISTS Connection(date TEXT, time TEXT, status TEXT);"; 
+
+    // Inserts Network Connection data into database
     char *sql1 = sqlite3_mprintf("INSERT INTO Connection VALUES('%q', '%q', '%q');", argv[1], argv[2], argv[3]);
 
     rc = sqlite3_exec(db, sql0, 0, 0, &err_msg);

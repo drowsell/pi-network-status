@@ -42,6 +42,7 @@ void launch(struct Server *server)
     }
 }
 
+// Pings telus.ca every 60s and logs to database whether the network was up or down
 void* monitor_network() {
 	while(1) {
 		system("bin/network/./ping.sh");
@@ -56,7 +57,7 @@ int main()
 		return 1;
 	}
 
-	sleep(1);
+	sleep(1); // Ensures database has time to be created
 
 	struct Server server = server_constructor(DOMAIN, SERVICE, PROTOCOL, INTERFACE, PORT, BACKLOG, launch);
 	server.launch(&server);
