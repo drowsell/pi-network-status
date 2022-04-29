@@ -32,5 +32,5 @@ sudo journalctl -u pi-network-status.service
 
 ## Stop Program
 ```
-sudo systemctl start pi-network-status.service
+sudo systemctl stop pi-network-status.service
 ```
