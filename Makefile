@@ -9,6 +9,7 @@ BINDIRS := $(patsubst %, $(BINDIR)/%, $(MODULES))
 all: webserver database
 
 install: 
+	./src/build/dependencies.sh
 	./src/build/pi_network_status_install.sh
 	sudo mv pi-network-status.service /etc/systemd/system/pi-network-status.service
 	sudo systemctl enable pi-network-status

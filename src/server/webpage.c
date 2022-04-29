@@ -121,7 +121,7 @@ int update_webpage(const char* file_source, const char* file_destination)
 	fclose(index);
 
 	// Erase connection.dat
-	FILE* connection_file = fopen("connection.dat", "w");
+	FILE* connection_file = fopen("bin/network/connection.dat", "w");
 
 	if(connection_file == NULL) {
 		printf("Error: Could not create file.");
