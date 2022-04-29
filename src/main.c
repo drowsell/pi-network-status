@@ -5,6 +5,7 @@
 #include "server/Server.h"
 #include "server/server_config.h"
 #include "server/webpage.h"
+#include <pthread.h>
 
 // Launches the http server
 // Server will listen for a client
@@ -41,8 +42,17 @@ void launch(struct Server *server)
     }
 }
 
+void* monitor_network() {
+	system("network/./connection.sh");
+}
+
 int main() 
 {
-    struct Server server = server_constructor(DOMAIN, SERVICE, PROTOCOL, INTERFACE, PORT, BACKLOG, launch);
-    server.launch(&server);
+	pthread_t t1;
+	if(pthread_create(&t1, NULL, &monitor_network, NULL) != 0) {
+		return 1;
+	}
+
+	struct Server server = server_constructor(DOMAIN, SERVICE, PROTOCOL, INTERFACE, PORT, BACKLOG, launch);
+	server.launch(&server);
 }
