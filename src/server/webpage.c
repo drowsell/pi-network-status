@@ -28,7 +28,7 @@ static int callback(void *data, int argc, char **argv, char **azColName)
 	return 0;
 }
 
-int update_webpage(const char* file_source,const char* file_destination) 
+int update_webpage(const char* file_source, const char* file_destination) 
 {
 	sqlite3 *db;
 	char *zErrMsg = 0;
@@ -62,16 +62,16 @@ int update_webpage(const char* file_source,const char* file_destination)
         	strcat(response_data, line);
 
 		char* check;
-		check = strstr(line, "Connection Data:");
+		check = strstr(line, "//INSERT//");
 		if(check) 
 		{
-			printf("%s\n", line);
+			printf("Connection Data\n");
 			break;
 		}
     	}
 
 	// Create SQL statement
-	sql = "SELECT date, SUM(CASE WHEN status='UP' THEN 1 ELSE 0 END) NumUps, SUM(CASE WHEN status='DOWN' THEN 1 ELSE 0 END) NumDowns FROM Connection GROUP BY date";
+	sql = "SELECT date, SUM(CASE WHEN status='DOWN' THEN 1 ELSE 0 END) NumDowns, SUM(CASE WHEN status='UP' THEN 1 ELSE 0 END) NumUps  FROM Connection GROUP BY date";
 	// Execute SQL statement
 	rc = sqlite3_exec(db, sql, callback, (void*)data, &zErrMsg);
    

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ../database
+
 while true
 do
 	day=`date +"%Y-%m-%d"`
@@ -11,12 +13,9 @@ do
 
 	# Checks if the ping was successful
 	if [[ $rc -eq 0 ]] ; then
-		echo "${day}"
-		echo "${time}"
-		echo "UP"
+		./insert ${day} ${time} UP
 	else
-		echo "${now}"
-		echo "DOWN"
+		./insert ${day} ${time} DOWN
 	fi
 sleep 60
 done
