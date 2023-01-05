@@ -15,8 +15,7 @@ The program will be running upon reboot.
 
 ## Uninstall
 ```
-make install
-make all
+make uninstall
 ```
 
 ## Reset Saved Data
